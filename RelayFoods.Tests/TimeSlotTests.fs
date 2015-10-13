@@ -35,10 +35,17 @@ type FiveHoursTimeSlots =
 
 type OverlappingTimeSlots =
     static member TimeSlot() =
-        let always = 
+        let included = 
             fun ts -> ts, {ts with StartTime=ts.StartTime.AddMinutes(30.0); EndTime=ts.EndTime.AddSeconds(-1.0)}
             <!> TimeSlots.baseGen
-        Gen.oneof [always ; TimeSlots.never]
+        let before = 
+            fun ts -> ts, {ts with StartTime=ts.StartTime.AddMinutes(-30.0); EndTime=ts.EndTime.AddSeconds(-1.0)}
+            <!> TimeSlots.baseGen
+        let after = 
+            fun ts -> ts, {ts with StartTime=ts.StartTime.AddMinutes(30.0); EndTime=ts.EndTime.AddMinutes(30.0)}
+            <!> TimeSlots.baseGen
+
+        Gen.oneof [included ; before; after ; TimeSlots.never]
         |> Arb.fromGen
 
 

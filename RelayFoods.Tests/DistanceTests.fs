@@ -41,7 +41,6 @@ open FsUnit.Xunit
 [<Xunit.InlineData(38.049472<degree>, -78.541887<degree>, 38.054714<degree>,-78.514557<degree>, 2.464<km>)>]
 // Puerta del sol al palacio real
 [<Xunit.InlineData(40.417797<degree>, -3.703614<degree>, 40.418515<degree>, -3.714421<degree>, 0.919<km>)>]
-
 let ``Expected distance of locations`` latA longA latB longB distance =
   let actual = 
     {Lat=latB; Long=longB} 

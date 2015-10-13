@@ -5,8 +5,8 @@ open Types
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitSymbols
 
 module TimeSlot =
-    let includes (p1: TimeSlot) (p2: TimeSlot) =
-        p1.StartTime <= p2.StartTime && p1.EndTime   >= p2.EndTime
+    let includes (ts1: TimeSlot) (ts2: TimeSlot) =
+        ts1.StartTime <= ts2.StartTime && ts1.EndTime >= ts2.EndTime
 
     let overlaps (ts1: TimeSlot) (ts2: TimeSlot) =
         ts1.StartTime < ts2.EndTime && ts2.StartTime < ts1.EndTime
@@ -30,16 +30,14 @@ module GeoLocation =
         dist * 6371.0 // aprox earth radius
 
 module Delivery = 
-    let closestLocation (truckStops: TruckStop list) (customers: Customer list) =
-        let findClosest customer =
-            let distToCust = GeoLocation.distance customer.Address.Geo
-            let overlapping truck = 
-                customer.PreferredPickup 
-                |> List.exists (TimeSlot.overlaps truck.TimeSlot)
-            
-            truckStops 
-            |> List.sortBy (fun ts -> ts.Geo |> distToCust)
-            |> List.tryFind overlapping
 
-        customers
-        |> List.map (fun c -> c, findClosest c)
+    let closestLocation (truckStops: TruckStop list) (customer: Customer) =
+        let distToCust = GeoLocation.distance customer.Address.Geo
+        let overlapping truck = 
+            let oo = customer.PreferredPickup |> List.exists (TimeSlot.overlaps truck.TimeSlot)
+            oo
+            
+        truckStops 
+        |> List.sortBy (fun ts -> ts.Geo |> distToCust)
+        |> List.tryFind overlapping
+
