@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RelayFoods", "RelayFoods.fsproj", "{A2818275-0EE7-42AD-AF02-3879CC3D65CB}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RelayFoods", "RelayFoods\RelayFoods.fsproj", "{A2818275-0EE7-42AD-AF02-3879CC3D65CB}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RelayFoods.Tests", "..\RelayFoods.Tests\RelayFoods.Tests.fsproj", "{D2AA58AC-2C8F-4D91-A6C0-296255C6CD06}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RelayFoods.Tests", "RelayFoods.Tests\RelayFoods.Tests.fsproj", "{D2AA58AC-2C8F-4D91-A6C0-296255C6CD06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

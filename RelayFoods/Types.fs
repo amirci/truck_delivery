@@ -31,7 +31,7 @@ type Customer = {
     FirstName: string
     LastName: string
     Address: Address
-    TimeSlots: TimeSlot list
+    PreferredPickup: TimeSlot list
 }
 
 type TruckStop = {

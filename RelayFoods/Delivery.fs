@@ -24,14 +24,13 @@ module GeoLocation =
             (locA.Lat |> sin) * (locB.Lat |> sin) +
             (locA.Lat |> cos) * (locB.Lat |> cos) * (theta |> cos)
             |> acos
-            |> rToD
-            |> (*) 1.0<km/degree>
+            |> (*) 1.0<km/radian>
 
-        dist * 60.0 * 1.1515 * 1.609344
+        dist * 6371.0 // aprox earth radius
 
 module Delivery = 
     let closestLocation (truckStops: TruckStop list) (customers: Customer list) =
-        let firstLoc (customer: Customer) = customer.TimeSlots |> List.head
+        let firstLoc (customer: Customer) = customer.PreferredPickup |> List.head
         let customer = customers |> Seq.head
 
         [

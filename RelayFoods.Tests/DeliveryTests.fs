@@ -10,7 +10,7 @@ open RelayFoods.Types
 // Proves the resulting location for each customer 
 // is during a truck stop
 [<Property>]
-let ``The location is during the truck stop`` intinerary customers =
+let ``The customer pick up time is during the truck stop`` intinerary customers =
     let isATruckStop (_, ts) = true
     
     intinerary, customers
