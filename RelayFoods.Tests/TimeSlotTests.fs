@@ -51,10 +51,6 @@ let ``Time slot includes another when happens inside the range`` (ts1: TimeSlot,
 
 
 [<Property(Arbitrary=[| typeof<OverlappingTimeSlots> |])>]
-let ``Time slot overlaps is starts or ends inside the range`` (ts1: TimeSlot, ts2: TimeSlot) = // (m: PositiveInt) =
-    let m = PositiveInt(30)
-    let atLeast (t1:DateTime) (t2:DateTime) = (t2 - t1).TotalMinutes >= float m.Get
-    let overlaps = 
-        (ts1.StartTime < ts2.EndTime && ts2.StartTime < ts1.EndTime)
-    let minutes = m.Get * 1<minutes>
-    overlaps ==> (ts2 |> TimeSlot.overlapsAtLeast minutes ts1)
+let ``Time slot overlaps is starts or ends inside the range`` (ts1: TimeSlot, ts2: TimeSlot) =
+    let overlaps = ts1.StartTime < ts2.EndTime && ts2.StartTime < ts1.EndTime
+    overlaps ==> (ts2 |> TimeSlot.overlaps ts1)

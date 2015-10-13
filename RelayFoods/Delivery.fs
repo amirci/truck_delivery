@@ -6,15 +6,10 @@ open Microsoft.FSharp.Data.UnitSystems.SI.UnitSymbols
 
 module TimeSlot =
     let includes (p1: TimeSlot) (p2: TimeSlot) =
-        p1.StartTime <= p2.StartTime &&
-        p1.EndTime   >= p2.EndTime
+        p1.StartTime <= p2.StartTime && p1.EndTime   >= p2.EndTime
 
-    let overlapsAtLeast (m:int<minutes>) (ts1: TimeSlot) (ts2: TimeSlot) =
-        let max = max ts1.StartTime ts2.StartTime
-        let min = min ts1.EndTime ts2.EndTime
-
-        (ts1.StartTime < ts2.EndTime && ts2.StartTime < ts1.EndTime) &&
-        (min - max).TotalMinutes >= float m
+    let overlaps (ts1: TimeSlot) (ts2: TimeSlot) =
+        ts1.StartTime < ts2.EndTime && ts2.StartTime < ts1.EndTime
 
 
 module GeoLocation =
@@ -36,9 +31,15 @@ module GeoLocation =
 
 module Delivery = 
     let closestLocation (truckStops: TruckStop list) (customers: Customer list) =
-        let firstLoc (customer: Customer) = customer.PreferredPickup |> List.head
-        let customer = customers |> Seq.head
+        let findClosest customer =
+            let distToCust = GeoLocation.distance customer.Address.Geo
+            let overlapping truck = 
+                customer.PreferredPickup 
+                |> List.exists (TimeSlot.overlaps truck.TimeSlot)
+            
+            truckStops 
+            |> List.sortBy (fun ts -> ts.Geo |> distToCust)
+            |> List.tryFind overlapping
 
-        [
-            customer, truckStops |> Seq.head
-        ]
+        customers
+        |> List.map (fun c -> c, findClosest c)
