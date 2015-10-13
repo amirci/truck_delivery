@@ -4,7 +4,7 @@ open System
 open Types
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitSymbols
 
-module TimePeriod =
+module TimeSlot =
     let includes (p1: TimeSlot) (p2: TimeSlot) =
         p1.StartTime <= p2.StartTime &&
         p1.EndTime   >= p2.EndTime

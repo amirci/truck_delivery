@@ -8,12 +8,12 @@ open RelayFoods.Types
 
 
 // Proves the resulting location for each customer 
-// is during a truck stop
+// happens during a truck stop
 [<Property>]
-let ``The customer pick up time is during the truck stop`` intinerary customers =
+let ``The customer pick up time happens during the truck stop`` truckStops customers =
     let isATruckStop (_, ts) = true
     
-    intinerary, customers
+    truckStops, customers
     ||> Delivery.closestLocation 
     |> List.forall isATruckStop
 
@@ -21,9 +21,9 @@ let ``The customer pick up time is during the truck stop`` intinerary customers 
 // Proves the chosen geo location is the closest for
 // that customer at that time
 [<Property>]
-let ``The location is the closest`` intinerary customers =
+let ``The resulting location is the closest`` truckStops customers =
     let isClosest allStops (_, ts) = true
 
-    intinerary, customers
+    truckStops, customers
     ||> Delivery.closestLocation 
-    |> List.forall (isClosest intinerary)
+    |> List.forall (isClosest truckStops)
