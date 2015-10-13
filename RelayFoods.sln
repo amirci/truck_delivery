@@ -7,6 +7,12 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RelayFoods", "RelayFoods\Re
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RelayFoods.Tests", "RelayFoods.Tests\RelayFoods.Tests.fsproj", "{D2AA58AC-2C8F-4D91-A6C0-296255C6CD06}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildTools", "BuildTools", "{4442BF7C-7934-434E-BA28-B587C4036DCC}"
+	ProjectSection(SolutionItems) = preProject
+		build.bat = build.bat
+		build.fsx = build.fsx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

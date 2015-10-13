@@ -48,7 +48,9 @@ Target "Help" (fun _ ->
 
 Target "Test" (fun _ ->
   !! "**/bin/Debug/*Tests.dll"
-  |> xUnit id
+  |> xUnit (fun p ->
+    {p with ToolPath = @"packages\xunit.runner.console.2.1.0\tools\xunit.console.exe"}
+  )
 )
 
 let addBuildTarget name env sln =
