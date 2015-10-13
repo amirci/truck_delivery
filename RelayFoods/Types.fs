@@ -6,6 +6,7 @@ open Microsoft.FSharp.Data.UnitSystems.SI.UnitSymbols
 [<Measure>] type degree
 [<Measure>] type radian
 [<Measure>] type km
+[<Measure>] type minutes
     
 let mPerKm = 1000.0<m/km>
 

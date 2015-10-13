@@ -6,22 +6,28 @@ open FsCheck.Xunit
 open RelayFoods
 open RelayFoods.Types
 
-
-// Proves the resulting location for each customer 
-// happens during a truck stop
-[<Property>]
-let ``The customer pick up time happens during the truck stop`` truckStops customers =
-    let isATruckStop (_, ts) = true
+type Deliveries =
+    static member CustomerDelivery() =
+        Arb.generate<Customer * TruckStop>
+        |> Arb.fromGen
+        
+[<Property(Arbitrary=[| typeof<Deliveries> |])>]
+let ``The resulting truck stop overlaps the customer's preferred time slot for at least half an our`` 
+    (truckStops, customers) =
+    
+    let overlapsPreferredTimeSlot (customer: Customer, truckStop:TruckStop) =
+        customer.PreferredPickup
+        |> List.exists (fun pp -> pp |> TimeSlot.overlapsAtLeast 30<minutes> truckStop.TimeSlot)
     
     truckStops, customers
     ||> Delivery.closestLocation 
-    |> List.forall isATruckStop
+    |> List.forall overlapsPreferredTimeSlot
 
 
-// Proves the chosen geo location is the closest for
-// that customer at that time
 [<Property>]
-let ``The resulting location is the closest`` truckStops customers =
+let ``The resulting truck stop is the closest to th ecustomer's address`` 
+    truckStops customers =
+    
     let isClosest allStops (_, ts) = true
 
     truckStops, customers

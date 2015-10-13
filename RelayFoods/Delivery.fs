@@ -9,9 +9,15 @@ module TimeSlot =
         p1.StartTime <= p2.StartTime &&
         p1.EndTime   >= p2.EndTime
 
+    let overlapsAtLeast (m:int<minutes>) (ts1: TimeSlot) (ts2: TimeSlot) =
+        let max = max ts1.StartTime ts2.StartTime
+        let min = min ts1.EndTime ts2.EndTime
+
+        (ts1.StartTime < ts2.EndTime && ts2.StartTime < ts1.EndTime) &&
+        (min - max).TotalMinutes >= float m
+
 
 module GeoLocation =
-    let private rToD (r:float<radian>) = r / System.Math.PI * 180.0<degree/radian>
     let private dToR (d:float<degree>) = d * System.Math.PI / 180.0<degree/radian>
 
     let private cos = dToR >> float >> cos
