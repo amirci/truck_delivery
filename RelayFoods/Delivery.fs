@@ -32,12 +32,14 @@ module GeoLocation =
 module Delivery = 
 
     let closestLocation (truckStops: TruckStop list) (customer: Customer) =
-        let distToCust = GeoLocation.distance customer.Address.Geo
-        let overlapping truck = 
-            let oo = customer.PreferredPickup |> List.exists (TimeSlot.overlaps truck.TimeSlot)
-            oo
+        let distanceToCustomer timeSlot = 
+            timeSlot.Geo |> GeoLocation.distance customer.Address.Geo
+
+        let matchingPickupTime truck = 
+            let overlapping = TimeSlot.overlaps truck.TimeSlot
+            customer.PreferredPickup |> List.exists overlapping
             
         truckStops 
-        |> List.sortBy (fun ts -> ts.Geo |> distToCust)
-        |> List.tryFind overlapping
+        |> List.sortBy distanceToCustomer
+        |> List.tryFind matchingPickupTime
 
